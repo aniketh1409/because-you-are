@@ -1,24 +1,71 @@
 [gd_scene format=3 uid="uid://bppvf67anueha"]
 
+[ext_resource type="Script" uid="uid://crr3wyp8manr5" path="res://scripts/frame_0_arrival.gd" id="1_47uen"]
 [ext_resource type="Script" uid="uid://ws63emcdj08l" path="res://scripts/player.gd" id="1_73t65"]
 [ext_resource type="Texture2D" uid="uid://dbw7dtl23ss2m" path="res://icon.svg" id="2_47uen"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_bk6kg"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_47uen"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_47uen"]
+content_margin_left = 18.0
+content_margin_top = 18.0
+content_margin_right = 18.0
+content_margin_bottom = 18.0
+bg_color = Color(0.05882353, 0.05882353, 0.07058824, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
 
 [node name="Node2D" type="Node2D" unique_id=1040567179]
+script = ExtResource("1_47uen")
 
-[node name="WorldBackground" type="Sprite2D" parent="." unique_id=391259138]
-position = Vector2(579.75, 326.25)
-scale = Vector2(1154.285, 650)
-texture = SubResource("PlaceholderTexture2D_bk6kg")
+[node name="WorldLayer" type="CanvasLayer" parent="." unique_id=556626811]
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=714672256]
+[node name="Player" type="CharacterBody2D" parent="WorldLayer" unique_id=714672256]
+z_index = 100
 position = Vector2(300, 300)
 script = ExtResource("1_73t65")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1436324184]
+[node name="Sprite2D" type="Sprite2D" parent="WorldLayer/Player" unique_id=1436324184]
 position = Vector2(-21.750002, -20.749998)
 scale = Vector2(0.258, 0.25)
+texture = ExtResource("2_47uen")
+
+[node name="WorldUI" type="Control" parent="WorldLayer" unique_id=1311431622]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WorldBG" type="ColorRect" parent="WorldLayer/WorldUI" unique_id=722473738]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.83835566, 0.0005781466, 0.8428612, 1)
+
+[node name="NPC_0" type="Area2D" parent="WorldLayer" unique_id=1829787498]
+z_index = 100
+position = Vector2(984, 393)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldLayer/NPC_0" unique_id=232066465]
+position = Vector2(0, -5)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_47uen")
+
+[node name="NPCSprite" type="Sprite2D" parent="WorldLayer/NPC_0" unique_id=1107377121]
+z_as_relative = false
+position = Vector2(6, 1)
 texture = ExtResource("2_47uen")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1922476635]
@@ -32,4 +79,67 @@ offset_right = -2.0
 offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(30, 30)
+
+[node name="ArrivalText" type="Label" parent="UI/RootUI" unique_id=1959316754]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -135.0
+offset_top = -150.0
+offset_right = 130.0
+offset_bottom = -108.400024
+grow_horizontal = 2
+grow_vertical = 0
+text = "You don't have to do anything yet."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Fade" type="ColorRect" parent="UI/RootUI" unique_id=1013239651]
+modulate = Color(0.003921569, 0.003921569, 0.003921569, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.00039445335, 0.00039445335, 0.00039445335, 1)
+
+[node name="DialogueBox" type="Panel" parent="UI/RootUI" unique_id=2033244120]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -150.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_47uen")
+
+[node name="NPCText" type="Label" parent="UI/RootUI/DialogueBox" unique_id=1594232395]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9405849, 0.86144453, 0.92011577, 1)
+theme_override_font_sizes/font_size = 26
+autowrap_mode = 2
+
+[node name="ChoicesRow" type="HBoxContainer" parent="UI/RootUI/DialogueBox" unique_id=526159197]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ChoiceA" type="Button" parent="UI/RootUI/DialogueBox/ChoicesRow" unique_id=1237914408]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "I'm tired."
+
+[node name="ChoiceB" type="Button" parent="UI/RootUI/DialogueBox/ChoicesRow" unique_id=171236185]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "I'm okay"
