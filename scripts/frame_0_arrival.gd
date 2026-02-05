@@ -9,7 +9,7 @@ extends Node2D
 @onready var npc_text := $UI/RootUI/DialogueBox/NPCText
 @onready var choice_a := $UI/RootUI/DialogueBox/ChoicesRow/ChoiceA
 @onready var choice_b := $UI/RootUI/DialogueBox/ChoicesRow/ChoiceB
-
+@onready var choice_c := $UI/RootUI/DialogueBox/ChoicesRow/ChoiceC
 @onready var npc_area := $WorldLayer/NPC_0
 
 var near_npc := false
@@ -39,6 +39,7 @@ func _ready() -> void:
     # connect button presses
     choice_a.pressed.connect(func(): _on_choice_pressed("A"))
     choice_b.pressed.connect(func(): _on_choice_pressed("B"))
+    choice_c.pressed.connect(func(): _on_choice_pressed("C"))
 
 func _process(delta: float) -> void:
     if near_npc and not in_dialogue and Input.is_action_just_pressed("ui_accept"):
@@ -49,21 +50,24 @@ func _start_dialogue() -> void:
     player.can_move = false
 
     dialogue_box.visible = true
-    npc_text.text = "Hey. Before you move on… how are you arriving today?"
+    npc_text.text = "Hey Placeholder. Before you move on… how are you arriving today?"
 
-    choice_a.text = "Tired."
-    choice_b.text = "Nervous, but here."
+    choice_a.text = "Not in my best shape"
+    choice_b.text = "Tired, nervous, but here."
+    choice_c.text = "I'm doing great!"
 
 func _on_choice_pressed(which: String) -> void:
     # Tailored reply, same end result
     if which == "A":
         npc_text.text = "Then we’ll go gently. You don’t have to earn rest."
-    else:
+    elif which == "B":
         npc_text.text = "That’s honest. Courage can be quiet like that."
-
+    else:
+        npc_text.text = "That's amazing! I can sense the positivity radiating from within you"
     # Hide buttons for a beat, then close
     choice_a.visible = false
     choice_b.visible = false
+    choice_c.visible = false
 
     # Give reward token (for now just print; later we’ll store in GameState)
     print("REWARD: Token_0")
@@ -75,6 +79,7 @@ func _end_dialogue() -> void:
     dialogue_box.visible = false
     choice_a.visible = true
     choice_b.visible = true
+    choice_c.visible = true
     in_dialogue = false
     player.can_move = true
 
@@ -88,7 +93,7 @@ func _on_npc_body_exited(body: Node) -> void:
     if body.name == "Player":
         near_npc = false
         if not in_dialogue:
-            arrival_text.text = ""  # or restore your default line
+            arrival_text.text = "Go ahead"  # or restore your default line
 
 func _fade_alpha(node: CanvasItem, target: float, duration: float) -> void:
     var t := create_tween()
