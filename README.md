@@ -5,6 +5,8 @@ Because You Are is a short, linear interactive experience built in Godot 4. Itâ€
 ## Tech & Assets
 Engine: Godot 4.
 
+Language: GDScript
+
 Art: 16x16 top-down pixel art assets.
 
 Style: Top-down RPG perspective with custom UI layering and fade transitions.
